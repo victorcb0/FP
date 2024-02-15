@@ -1,0 +1,55 @@
+1. let headoflist l =
+  match l with
+  | [] -> failwith "Lista este goală!"
+  | x :: _ -> x
+
+let tailoflist l =
+  match l with
+  | [] -> failwith "Lista este goală!"
+  | _ :: xs -> xs
+
+
+2. let rotate_left = function
+  | [] -> []
+  | x :: xs -> xs @ [x]
+
+let rec rotate_right = function
+  | [] -> []
+  | [x] -> [x]
+  | x :: xs -> let ys = rotate_right xs in ys @ [x]
+
+
+3. type 'a arbore = Gol | Nod of ('a arbore * 'a * 'a arbore)
+
+let rec insereaza x = function
+  | Gol -> Nod (Gol, x, Gol)
+  | Nod (stanga, y, dreapta) as nod ->
+    if x < y then Nod (insereaza x stanga, y, dreapta)
+    else if x > y then Nod (stanga, y, insereaza x dreapta)
+    else nod
+
+let rec cauta x = function
+  | Gol -> false
+  | Nod (stanga, y, dreapta) ->
+    if x < y then cauta x stanga
+    else if x > y then cauta x dreapta
+    else true
+
+let rec inordine = function
+  | Gol -> []
+  | Nod (stanga, x, dreapta) -> inordine stanga @ [x] @ inordine dreapta
+
+let rec preordine = function
+  | Gol -> []
+  | Nod (stanga, x, dreapta) -> [x] @ preordine stanga @ preordine dreapta
+
+let arbore1 = Gol
+let arbore1 = insereaza 3 arbore1
+let arbore1 = insereaza 2 arbore1
+let arbore1 = insereaza 4 arbore1
+let arbore1 = insereaza 1 arbore1
+let arbore1 = insereaza 5 arbore1;;
+cauta 5 arbore1;;
+cauta 6 arbore1;;
+inordine arbore1;;
+preordine arbore1;;

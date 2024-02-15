@@ -1,0 +1,103 @@
+1. (defun abs1 (nr)
+(if (> nr 0) nr (- nr)))
+
+(defun not1 (nr) (- nr)) 
+
+2. (defun and1 (a b c)
+(cond ((not a) nil)
+((not b) nil)
+(t c)))
+
+(defun or1 (a b c)
+(cond (a) (b) (t c)))
+
+3. (defun mijloc (a b c)
+(cond ((< a b c) b)
+((< b c a) c)
+((< c a b) a)
+((< c b a) b)
+((< a c b) c)
+((< b a c) a)))
+
+4. (defun my-third (lista)
+(nth '2 lista))
+
+(defun my-last (lista) 
+(car (last lista)))
+
+5. (defun my-append (lista1 lista2)
+(append lista1 lista2))
+
+(defun palindrom (lista)
+(cond ((equal lista (reverse lista)) t))) 
+
+6. (defun ecuatie (a b c) 
+(if (> (setq delta (- (* b b) (* 4 a c))) 0) 
+(format t "x1 = ~A ~%x2 = ~A~%"  (/ (+ (- b) (SQRT delta)) (* a a))  (/ (- (- b) (SQRT delta)) (* a a)))
+(if (= delta 0) 
+(format t "x = ~A~%"  (/ (- b) (* a a)))
+(format t "Solutii complexe"))))
+
+7. (defun functie (x) 
+(cond ((<= x -2) (* x x)) 
+((<= x 1) (+ x 2)) 
+((> x 1) (SQRT (+ (* x x) 1)))))
+
+8. (defun atom-lista (a l) 
+(cond ((NOT (AND (SYMBOLP a) (LISTP l))) (format t "Argumente incorecte"))
+((NOT (member a l)) (append l (list a)))
+(t (member a l))))
+
+9. (defun meniu ()
+(format t "1 - Adunare~%")
+(format t "2 - Scadere~%")
+(format t "3 - Inmultire~%")
+(format t "4 - Restul impartirii~%")
+(format t "Citire nr1, nr2, operatie:~%")
+(let ((nr1 (read)) 
+(nr2 (read)) 
+(op (read)))
+(cond ((= op 1) (+ nr1 nr2)) 
+((= op 2) (- nr1 nr2)) 
+((= op 3) (* nr1 nr2)) 
+((= op 4) (if (= nr2 0) (format t "Impartire la 0~%") (/ nr1 nr2))))))
+
+10. (defun COUNTATOMS (lista)
+(if (NULL lista) 0
+(+ (if (ATOM (car lista)) 1 (COUNTATOMS (car lista))) 
+(COUNTATOMS (cdr lista)))))
+
+11. (defun Rot-left (lista nr)
+(if (= nr 0) lista
+(Rot-left (append (cdr lista) (list (car lista))) (- nr 1))))
+
+(defun Rot-right (lista nr)
+(if (= nr 0) lista
+(Rot-right (append (last lista) (reverse (cdr (reverse lista)))) (- nr 1))))
+
+12. (defun fara_dubluri (lista)
+(cond ((NULL lista) lista)
+((member (car lista) (cdr lista)) (fara_dubluri (cdr lista)))
+(t (append (list (car lista)) (fara_dubluri (cdr lista))))))
+
+13. (defun presentp (atom1 lista)
+(cond ((ATOM lista) (EQUAL atom1 lista))
+((presentp atom1 (car lista)))
+(t (presentp atom1 (cdr lista)))))
+
+14. (defun cifre (nr)
+(if (NOT (NUMBERP nr)) (format t "Nu e numar") 
+(if (= (floor (/ nr 10)) 0) (list (rem nr 10))
+(setq lista (append (cifre (floor (/ nr 10))) (list (rem nr 10)))))))
+
+15. (defun pozpar (lista)
+(do ((lista lista (cddr lista)) (lista1 () (append lista1 (list (car lista)))))
+((NULL lista) lista1)))
+
+16. (defun cmmdc (nr1 nr2)
+(format t "Nr1 = ~A~%Nr2 = ~A~%" nr1 nr2)
+(format t "cmmdc = ~A~%" 
+(do (nill) ((= nr1 nr2) nr1)
+(if (> nr1 nr2)
+(setq nr1 (- nr1 nr2))
+(setq nr2 (- nr2 nr1))))))

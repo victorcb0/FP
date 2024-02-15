@@ -1,0 +1,171 @@
+1. (defun pare-suma (lista)
+(if (NULL lista) 0
+(+ (car lista) (pare-suma (cddr lista)))))
+
+(pare-suma '(0 1 2 3 4 5))
+
+
+2. (defun reuniune (lista1 lista2)
+(cond ((null lista1) lista2)
+((null lista2) lista1)
+((member (car lista1) lista2) (reuniune (cdr lista1) lista2))
+(t (cons (car lista1) (reuniune (cdr lista1) lista2))))))
+
+(reuniune '(a b c) '(a b d))
+
+
+(defun intersectie (lista1 lista2)
+(remove-if-not (lambda (x) (member x lista2)) lista1))
+
+(intersectie '(a b c) '(a b d))
+
+
+(defun diferenta (lista1 lista2)
+(remove-if-not (lambda (x) (not (member x lista2))) lista1))
+
+(diferenta '(a b c) '(a b d))
+
+
+3. (apply '+ (mapcar (lambda (x) (if (equal 'a x) 1 0)) '(a b c d a b c a)))
+
+
+4. (defun indentare (lista nivel)
+(dotimes (i (length lista))
+(cond ((atom (car (nthcdr i lista))) 
+(cond ((= i 0) (format t "~v<~>( ~A~%" nivel (car (nthcdr i lista))))
+((= i (- (length lista) 1)) (format t "~v<~>~A )~%" (+ nivel 2) (car (nthcdr i lista))))
+(t  (format t "~v<~>~A~%" (+ nivel 2) (car (nthcdr i lista))))))
+(t (indentare (car (nthcdr i lista)) (+ nivel 2))))))
+
+(indentare '(a b (c d) (e f g) h) 0)
+
+
+5. (defun fetch (cheia lista)
+(if (assoc cheia lista)
+(cdr (assoc cheia lista))
+(format t "Cheia ~A nu a fost gasita.~%" cheia)))
+
+(fetch 'temperature '((temperature 100) (pressure (120 60)) (pulse 72)))
+
+
+6. (defun chei (lista)
+(do ((l lista (cdr l)) (l1 '())) ((null l) l1)
+(setq l1 (append l1 (list (caar l))))))
+
+(chei '((temperature 100) (pressure (120 60)) (pulse 72)))
+
+
+7. (defun bunic (simbol)
+(if (get simbol 'tata)
+(get (get simbol 'tata) 'tata)
+nil))
+
+(setf (get 'a2 'tata) 'a1)
+(setf (get 'a3 'tata) 'a2)
+(setf (get 'a4 'tata) 'a3)
+
+(bunic 'a4)
+(bunic 'a1)
+
+
+8. (defun ADAM (persoana)
+(if (NULL (get persoana 'tata)) (princ persoana)
+(ADAM (get persoana 'tata))))
+
+(setf (get 'p3 'tata) 'p1)
+(setf (get 'p3 'mama) 'p2) 
+(setf (get 'p6 'tata) 'p4) 
+(setf (get 'p6 'mama) 'p5)
+(setf (get 'p7 'tata) 'p3)
+(setf (get 'p7 'mama) 'p6)
+
+(ADAM 'p7)
+
+(NULL (get 'p3 'tata))
+
+
+9. (defun stramosi (persoana)
+(if (null persoana) nil
+(let ((tata (stramosi (get persoana 'tata)))
+(mama (stramosi (get persoana 'mama))))
+(cons persoana (append tata mama)))))
+
+(setf (get 'p3 'tata) 'p1)
+(setf (get 'p3 'mama) 'p2)
+(setf (get 'p6 'tata) 'p4)
+(setf (get 'p6 'mama) 'p5)
+(setf (get 'p7 'tata) 'p3)
+(setf (get 'p7 'mama) 'p6)
+
+(stramosi 'p7)
+
+
+10. (defmacro define (nume params corp)
+`(defun ,nume ,params ,corp))
+
+(define suma (x y) (+ x y))
+
+(suma 1 2)
+
+
+11. (defmacro my-dotimes (var count rezultat corp)
+`(let ((,var 0))
+(if (INTEGERP ,count)
+(dotimes (,var ,count) ,corp)
+(print "count nu e integer")) ,rezultat))  
+
+(let ((sum 0))
+(my-dotimes i 5 sum (setq sum (+ sum i))))
+
+
+12. (defun print-array (matrice)
+(let ((n (array-dimension matrice 0))
+(m (array-dimension matrice 1)))
+(dotimes (i n)
+(dotimes (j m)
+(format t "~A " (aref matrice i j)))
+(format t "~%"))))
+
+(let ((matrice #2A((1 2 3) (4 5 6) (7 8 9))))
+(print-array matrice))
+
+
+13. (defun transform (matrice)
+(let ((n (length matrice))
+(m (length (first matrice)))) 
+(setq matrice1 (make-array (list n m)))
+(dotimes (i n)
+(dotimes (j m)
+(setf (aref matrice1 i j) (car (nthcdr j (car (nthcdr i matrice)))))))
+matrice1))
+
+(let ((matrice '((1 2 3) (4 5 6) (7 8 9))))
+(transform matrice))
+
+
+(defun transform1 (matrice)
+(let ((n (+ 1(caar (last matrice))))
+(m (+ 1(cadar (last matrice))))) 
+(setq matrice1 (make-array (list n m)))
+(dotimes (i n)
+(dotimes (j m)
+(setf (aref matrice1 i j) (caddar (nthcdr (+ (* i 3) j) matrice))))))
+matrice1))
+
+(let ((matrice '((0 0 1) (0 1 2) (0 2 3) (1 0 4) (1 1 5) (1 2 6) (2 0 7) (2 1 8) (2 2 9))))
+(transform1 matrice))
+
+
+14. (defstruct nod radacina stga dr)
+
+(defun adauga-nod (valoare arbore)
+(cond ((null arbore) (setf arbore (make-nod :radacina valoare)))
+((<= valoare (nod-radacina arbore)) (setf (nod-stga arbore) (adauga-nod valoare (nod-stga arbore))))
+(t (setf (nod-dr arbore) (adauga-nod valoare (nod-dr arbore)))))
+arbore)
+
+(let ((arbore (make-nod :radacina 3)))
+(adauga-nod 2 arbore)
+(adauga-nod 1 arbore)
+(adauga-nod 4 arbore)
+(adauga-nod 5 arbore))

@@ -1,0 +1,113 @@
+1. (A B C D) -> (car (cdr (cdr (cdr '(A B C D)))))
+(A (B C) (D E)) -> (car (car (cdr (cdr '(A (B C) (D E))))))
+(A (B C (D E))) -> (car (car (cdr (cdr (car (cdr '(A (B C (D E)))))))))
+((A) (B) (C) (D) (E)) -> (car (car (cdr (cdr (cdr '((A) (B) (C) (D) (E)))))))
+( A (B) ((C)) (((D))) ((((E))))) -> (car (car (car (car (cdr (cdr (cdr '( A (B) ((C)) (((D))) ((((E)))) ))))))))
+((((A) B) C) D) -> (car (cdr '((((A) B) C) D)))
+
+
+2. (subst 'azi 'maine (reverse '(frumoasa zi o este maine))) -> (AZI ESTE O ZI FRUMOASA)
+(length (subst 'azi 'maine (reverse '(frumoasa zi o este maine)))) -> 5
+
+
+3. (setq lista '(a b c (d e))) -> (A B C (D E))
+lista -> (A B C (D E))
+
+(setq M ’max) -> MAX
+M -> MAX
+
+(cons M lista) -> (MAX A B C (D E))
+
+(cons lista M) -> ((A B C (D E)) . MAX)
+
+(append (list M) (last (cdr lista))) -> (MAX (D E))
+
+(list ' M (cadr lista)) -> (M B)
+
+(append ' lista (list M (last lista))) -> APPEND: LISTA is not a list
+
+(list (car lista) (cadr lista) (caddr lista) M) -> (A B C MAX)
+
+
+4. ((A) (B) (C) (D) (E)) -> ((((A) (B) (C)) . B) (E D C) D)
+cons    +
+list    +
+append  +
+
+last    +
+nth     +
+nthcdr  + 
+length  +
+reverse +
+subst   +
+
+(append
+(list
+(cons 
+(reverse (nthcdr '2 (reverse '((A) (B) (C) (D) (E))))) 
+(car (nth '1 '((A) (B) (C) (D) (E)))))
+(append 
+(car (nthcdr (- (length '((A) (B) (C) (D) (E))) 1) '((A) (B) (C) (D) (E))))
+(car (nthcdr '3 '((A) (B) (C) (D) (E))))
+(caddr '((A) (B) (C) (D) (E)))))
+(car (subst 'D 'E (last '((A) (B) (C) (D) (E)))))))
+
+
+5. (setq l1 '((((A) (B)) C) (D) (EF G)))
+
+(append (cadr l1) (car (nth '1 l1)) (last l1)) -> APPEND: D is not a list
+La funcția append argumentele trebuie să fie liste, excepție face doar ultimul element.
+
+(append (cadr l1) (nth '1 l1) (last l1)) -> (D D (EF G))
+În expresia (car (nth '1 l1)) se returnează un atom, deci se va elimina primitiva CAR, pentru a returna o listă cu un element doar.
+
+(cons (nth '3 l1) (nthcdr '2 l1)) -> (NIL (EF G))
+Expresia (nth '3 l1) returnează al 3 element al listei, însă el neexistând, va returna NIL.
+Expresia (nthcdr '2 l1) aplica de 2 ori primitiva CDR variabilei L1, deci va returna lista (EF G)
+Funcția CONS construiește o listă din cei 2 atomi, deci va returna lista (NIL (EF G)).
+
+
+6. (setq E '(x y ((z) u)) F (last E) G (caar F)) -> (Z)
+
+E '(x y ((z) u))
+Variabilei E i se atribuie lista '(x y ((z) u)).
+
+F (last E)
+Variabilei F i se atribuie ultimul element al listei memorate în variabila E, (((z) u)).
+
+G (caar F)
+Variabilei G i se atribuie rezultatul operației (caar F), care va fi (Z), fiind ultima variabilă, valoarea sa va fi returnată și afișată.
+
+
+(setq X '12 Y '14 Z '22 E (- (+ x y) z)) -> 4
+
+X '12
+Variabilei X i se atribui elementul 12.
+
+Y '14
+Variabilei Y i se atribui elementul 14.
+
+Z '22
+Variabilei Z i se atribui elementul 22.
+
+E (- (+ x y) z)
+Variabilei E i se atribui rezultatul operației (- (+ x y) z) -> ((x + y) - z) -> ((12 + 14) - 22) -> 4, fiind ultima variabilă, valoarea sa va fi returnată și afișată.
+
+
+(setq M (MIN 1 -4 23 56 1) P (* M 10) X (EXPT P 2)) -> 1600
+
+M (MIN 1 -4 23 56 1)
+Variabilei M i se atribui elementul minim dintre 1, -4, 23, 56 și 1, deci -4.
+
+P (* M 10)
+Variabilei P i se va atribui valoarea expresiei (* M 10) -> (M * 10) -> (-4 * 10) -> -40
+
+X (EXPT P 2)
+Variabilei X i se va atribui valoarea expresiei (EXPT P 2) -> (P^2) -> ((-40)^2) -> 1600, fiind ultima variabilă, valoarea sa va fi returnată și afișată.
+
+
+7. (A B C D) -> (D B C A)
+(append (last '(A B C D)) (cdr (subst 'A 'D '(A B C D))))
+
+(A B C D) -> (D A B C)
+(append (last '(A B C D)) (reverse (cdr (reverse '(A B C D)))))

@@ -1,0 +1,27 @@
+3. (/ (* (+ 25 30) 15) 2)
+(* 6 3.1416)
+
+4. (floor (/ (+ 5 6.7 -23.2 75 100.3) 5))
+
+5. (rem 365 12)
+(rem 13 467)
+
+6. (format t "x1 = ~A ~%x2 = ~A~%"  (/ (+ (- 7) (SQRT (- (EXPT 7 2) (* 4 2 5)))) (* 2 2))  (/ (- (- 7) (SQRT (- (EXPT 7 2) (* 4 2 5)))) (* 2 2))) -> 
+x1 = -1
+x2 = -5/2
+
+7. (format t "Rontunjire in jos: ~A~%" (FLOOR (/ (- (* 5 2.25) 7.13) (- 45 (/ 25 5))))) -> Rontunjire in jos: 0
+(format t "Rontunjire in sus: ~A~%" (CEILING (/ (- (* 5 2.25) 7.13) (- 45 (/ 25 5))))) -> Rontunjire in sus: 1
+(format t "Incrementare: ~A~%" (1+ (/ (- (* 5 2.25) 7.13) (- 45 (/ 25 5))))) -> Incrementare: 1.103
+(format t "Decrementare: ~A~%" (1- (/ (- (* 5 2.25) 7.13) (- 45 (/ 25 5))))) -> Decrementare: -0.897
+
+8. (* (MAX 3 4 5) (MIN 3 4 5)) -> 15
+(EXPT (MAX 3 1 4) (MAX 2 7 1)) -> 16384
+(REM (+ 5 7 13) (- 14 1)) -> 12
+
+9. (format t "Rezultatul expresiei ~A este: ~A~%"  '((25 + 30) * 15 / 2) (/ (* (+ 25 30) 15) 2)) -> Rezultatul expresiei ((25+30) *15/2) este: 825/2
+(format t "Rezultatul expresiei ~A este: ~A~%"  '(6 * 3.1416) (* 6 3.1416)) -> Rezultatul expresiei (6 * 3.1416) este: 18.8496
+
+10. (format t "A=~*~A~%" (princ "A = citire valoare: ") (READ)) -> 
+A = citire valoare: 1
+A=1
